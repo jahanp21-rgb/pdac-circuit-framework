@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="description" content="Three Coupled Survival Circuits in KRAS-Mutant PDAC — Computational oncology framework integrating transcriptomics, Boolean networks, and CRISPR validation."/>
+<title>PDAC Circuit Framework | Computational Oncology</title>
+<link rel="stylesheet" href="assets/css/main.css"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════ NAV -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <div class="nav-brand">
+      <span class="brand-accent">PDAC</span>
+      <span class="brand-text">Circuit Framework</span>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="active">Overview</a>
+      <a href="pages/methods.html">Methods</a>
+      <a href="pages/results.html">Results</a>
+      <a href="pages/network.html">Network</a>
+      <a href="pages/reproducibility.html">Reproducibility</a>
+      <a href="https://github.com/[YOUR-USERNAME]/pdac-circuit-framework" target="_blank" class="nav-github">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════ HERO -->
+<header class="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Computational Oncology · Systems Biology · Undergraduate Research</div>
+    <h1 class="hero-title">
+      Three Coupled Survival Circuits<br/>
+      <span class="gradient-text">Govern Adaptive Resistance</span><br/>
+      in KRAS-Mutant PDAC
+    </h1>
+    <p class="hero-subtitle">
+      A multi-cohort transcriptomic, Boolean network, and CRISPR-validated computational framework
+      integrating 183 TCGA-PAAD patients, two independent validation cohorts,
+      47 PDAC cell lines, and mechanistic network simulation.
+    </p>
+    <div class="hero-actions">
+      <a href="pages/results.html" class="btn-primary">Explore Results</a>
+      <a href="pages/methods.html" class="btn-secondary">View Methods</a>
+      <a href="https://github.com/[YOUR-USERNAME]/pdac-circuit-framework" target="_blank" class="btn-ghost">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        View on GitHub
+      </a>
+    </div>
+    <div class="hero-warning">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      All findings are computational. Experimental validation is required before therapeutic conclusions can be drawn.
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════════════ KEY STATS -->
+<section class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <span class="stat-number">183</span>
+      <span class="stat-label">TCGA-PAAD Patients</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-number">134</span>
+      <span class="stat-label">External Validation (GSE183795)</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-number">47</span>
+      <span class="stat-label">PDAC Cell Lines (CRISPR)</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-number">44</span>
+      <span class="stat-label">Circuit Proteins</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-number">1,000</span>
+      <span class="stat-label">Bootstrap Iterations</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════ HYPOTHESIS -->
+<section class="section section-light">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">Central Hypothesis</div>
+      <h2>Why does PDAC resist every drug?</h2>
+      <p class="section-lead">Over fifty molecularly targeted agents have failed in PDAC clinical trials. This study proposes that the answer lies not in individual pathway failure, but in a structurally redundant, three-circuit survival architecture.</p>
+    </div>
+    <div class="circuit-cards">
+      <div class="circuit-card circuit-ph">
+        <div class="circuit-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>
+        </div>
+        <h3>pH / Hypoxia Circuit</h3>
+        <p>KRAS→HIF1A→CA9/CA12 axis enables tumour cells to acidify the extracellular environment and sustain glycolytic metabolism under hypoxia.</p>
+        <div class="circuit-genes">CA9 · CA12 · HIF1A · EGLN1 · HSP90AA1</div>
+        <div class="circuit-drug">Target drug: SLC-0111 (CA9/CA12 inhibitor)</div>
+      </div>
+      <div class="circuit-card circuit-death">
+        <div class="circuit-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3>Death Suppression Circuit</h3>
+        <p>BCL2-family proteins physically sequester CASP9 and BAX, preventing apoptosome assembly despite oncogene-driven replication stress.</p>
+        <div class="circuit-genes">BCL2 · BCL2L1 · CASP9 · BAX · FADD · APAF1</div>
+        <div class="circuit-drug">Target drug: Venetoclax / BCL2 family inhibitors</div>
+      </div>
+      <div class="circuit-card circuit-cycle">
+        <div class="circuit-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <h3>Cell Cycle Circuit</h3>
+        <p>CDK4-Cyclin D1 complex phosphorylates the retinoblastoma protein, driving unrestrained G1→S progression and sustained mitotic cycling.</p>
+        <div class="circuit-genes">CDK4 · CCND1 · TTK · SLC29A1</div>
+        <div class="circuit-drug">Target drug: Palbociclib (CDK4/6 inhibitor)</div>
+      </div>
+    </div>
+    <div class="coupling-banner">
+      <div class="coupling-icon">⟷</div>
+      <div class="coupling-text">
+        <strong>The coupling hypothesis:</strong> These three circuits are not independent — they share regulatory nodes including RELA (NF-κB p65), which bridges all three arms. Single-circuit targeting allows the remaining circuits to compensate. Only simultaneous three-circuit disruption may prevent adaptive rewiring.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════ KEY RESULTS -->
+<section class="section section-dark">
+  <div class="container">
+    <div class="section-header light">
+      <div class="section-tag">Key Results</div>
+      <h2>Six Converging Lines of Evidence</h2>
+      <p class="section-lead">Each analytical layer independently supports the coupled-circuit hypothesis.</p>
+    </div>
+    <div class="results-grid">
+
+      <div class="result-card">
+        <div class="result-number">r = −0.47</div>
+        <div class="result-title">BCL2 ↔ CASP9 Coupling</div>
+        <div class="result-detail">Significant inverse co-expression across 183 patient tumours (FDR p &lt; 0.001), consistent with BCL2-mediated CASP9 sequestration operative at population scale.</div>
+        <a href="pages/results.html#correlations" class="result-link">View correlation matrix →</a>
+      </div>
+
+      <div class="result-card">
+        <div class="result-number">p = 0.009</div>
+        <div class="result-title">Three Subtypes, Distinct Survival</div>
+        <div class="result-detail">Consensus clustering (1,000 bootstrap iterations, stability 0.705–0.779) identifies three patient subtypes with significantly different overall survival by log-rank test.</div>
+        <a href="pages/results.html#subtypes" class="result-link">View survival curves →</a>
+      </div>
+
+      <div class="result-card">
+        <div class="result-number">HR = 10.84</div>
+        <div class="result-title">Cell Cycle CDS Predicts Mortality</div>
+        <div class="result-detail">Cell cycle circuit score independently predicts overall mortality after adjusting for age, stage, grade, and sex (95% CI 1.75–66.96, p = 0.010). Wide CI reflects exploratory cohort size.</div>
+        <a href="pages/results.html#cox" class="result-link">View Cox model →</a>
+      </div>
+
+      <div class="result-card result-card-highlight">
+        <div class="result-number">HR = 12.08</div>
+        <div class="result-title">External Validation (GSE183795)</div>
+        <div class="result-detail">Same score applied without retraining to 134 patients at a separate institution on a different platform. Hazard ratio differs by only 0.15 units from discovery cohort (p = 0.0006).</div>
+        <a href="pages/results.html#validation" class="result-link">View validation results →</a>
+      </div>
+
+      <div class="result-card">
+        <div class="result-number">100%</div>
+        <div class="result-title">Triple-Circuit Boolean Collapse</div>
+        <div class="result-detail">Single and dual circuit inhibition: ≤56.3% death-attractor convergence. Simultaneous triple-circuit inhibition: 100%. No single or dual perturbation approached this threshold.</div>
+        <a href="pages/network.html" class="result-link">Explore Boolean model →</a>
+      </div>
+
+      <div class="result-card">
+        <div class="result-number">−1.13</div>
+        <div class="result-title">CCND1 CRISPR Essentiality</div>
+        <div class="result-detail">CCND1 (−1.13), BCL2L1 (−0.83), TTK (−0.82), CDK4 (−0.50) exceed the DepMap essentiality threshold of −0.5 across 47 PDAC cell lines, confirming functional gene dependency.</div>
+        <a href="pages/results.html#crispr" class="result-link">View CRISPR data →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════ BOOLEAN PREVIEW -->
+<section class="section section-light">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">Boolean Network Simulation</div>
+      <h2>Why Single Agents Fail: A Computational Explanation</h2>
+      <p class="section-lead">A 20-node Boolean network model built from primary literature regulatory rules reveals that the PDAC circuit architecture provides complete compensation under single-agent treatment.</p>
+    </div>
+    <div class="boolean-visual">
+      <div class="treatment-bars">
+        <div class="treatment-row">
+          <div class="treatment-label">No treatment</div>
+          <div class="bar-container">
+            <div class="bar bar-neutral" style="width:50.4%">
+              <span class="bar-value">50.4%</span>
+            </div>
+          </div>
+        </div>
+        <div class="treatment-row">
+          <div class="treatment-label">Palbociclib alone</div>
+          <div class="bar-container">
+            <div class="bar bar-neutral" style="width:50.4%">
+              <span class="bar-value">50.4% — no change</span>
+            </div>
+          </div>
+        </div>
+        <div class="treatment-row">
+          <div class="treatment-label">SLC-0111 alone</div>
+          <div class="bar-container">
+            <div class="bar bar-partial" style="width:56.3%">
+              <span class="bar-value">56.3%</span>
+            </div>
+          </div>
+        </div>
+        <div class="treatment-row">
+          <div class="treatment-label">SLC-0111 + Palbociclib</div>
+          <div class="bar-container">
+            <div class="bar bar-partial" style="width:56.3%">
+              <span class="bar-value">56.3% — no improvement</span>
+            </div>
+          </div>
+        </div>
+        <div class="treatment-row">
+          <div class="treatment-label"><strong>Triple combination</strong></div>
+          <div class="bar-container">
+            <div class="bar bar-complete" style="width:100%">
+              <span class="bar-value"><strong>100% — complete collapse</strong></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="boolean-caption">
+        Death-attractor basin fraction (% of state-space converging to cell-death state) under each simulated treatment condition. Single-node perturbation analysis identified RELA and BCL2 as the only individual nodes whose isolated inactivation is sufficient to produce complete circuit collapse (+49.6 percentage points each).
+      </div>
+    </div>
+    <div class="boolean-cta">
+      <a href="pages/network.html" class="btn-primary">Explore the Full Network Model</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════ PIPELINE -->
+<section class="section section-gradient">
+  <div class="container">
+    <div class="section-header light">
+      <div class="section-tag">Analytical Pipeline</div>
+      <h2>Six Independent Evidence Streams</h2>
+    </div>
+    <div class="pipeline-steps">
+      <div class="pipeline-step">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <h4>Network Construction</h4>
+          <p>44 circuit proteins · 45 directed edges · SignaLink · SIGNOR · PhosphoSite</p>
+        </div>
+      </div>
+      <div class="pipeline-arrow">→</div>
+      <div class="pipeline-step">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <h4>Transcriptomic Coupling</h4>
+          <p>Spearman correlation · 183 TCGA patients · FDR correction · Cross-arm co-regulation</p>
+        </div>
+      </div>
+      <div class="pipeline-arrow">→</div>
+      <div class="pipeline-step">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <h4>Subtype Discovery</h4>
+          <p>ConsensusClusterPlus · 1,000 bootstraps · 3 subtypes · Stability ≥ 0.70</p>
+        </div>
+      </div>
+      <div class="pipeline-arrow">→</div>
+      <div class="pipeline-step">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <h4>Prognostic Validation</h4>
+          <p>Multivariate Cox · C-index · DCA · External replication · No retraining</p>
+        </div>
+      </div>
+      <div class="pipeline-arrow">→</div>
+      <div class="pipeline-step">
+        <div class="step-num">05</div>
+        <div class="step-content">
+          <h4>Boolean Simulation</h4>
+          <p>BoolNet · 20 nodes · Full state-space · Drug perturbations · Node knockouts</p>
+        </div>
+      </div>
+      <div class="pipeline-arrow">→</div>
+      <div class="pipeline-step">
+        <div class="step-num">06</div>
+        <div class="step-content">
+          <h4>CRISPR Validation</h4>
+          <p>DepMap · 47 PDAC lines · CERES scores · Essentiality threshold −0.5</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════ CAVEATS -->
+<section class="section section-light">
+  <div class="container">
+    <div class="caveat-box">
+      <div class="caveat-header">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Important Limitations and Caveats
+      </div>
+      <div class="caveat-grid">
+        <div class="caveat-item">
+          <strong>Computational only.</strong> No wet laboratory experiments were performed. All findings require experimental validation in cell line, organoid, and in vivo models.
+        </div>
+        <div class="caveat-item">
+          <strong>Classifier circularity.</strong> The internal AUC of 1.0 is expected — subtype labels were derived from the same circuit scores used as classifier inputs. External AUC of 0.742 is the meaningful metric.
+        </div>
+        <div class="caveat-item">
+          <strong>Wide confidence intervals.</strong> HR 95% CIs (1.75–66.96 in discovery; 2.89–50.43 in validation) reflect exploratory cohort sizes. Effect magnitudes require prospective confirmation.
+        </div>
+        <div class="caveat-item">
+          <strong>Boolean simplification.</strong> Binary gene logic cannot capture continuous biochemical dynamics. All Boolean predictions are qualitative and topology-dependent.
+        </div>
+        <div class="caveat-item">
+          <strong>Subtype B small n.</strong> 11 patients in Subtype B. Survival findings for this subgroup are hypothesis-generating only.
+        </div>
+        <div class="caveat-item">
+          <strong>pH arm in vitro.</strong> CA9 and HIF1A show minimal CRISPR dependency in normoxic cell culture. This does not negate their patient-tumour relevance.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════ FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-left">
+      <div class="footer-brand"><span class="brand-accent">PDAC</span> Circuit Framework</div>
+      <p class="footer-desc">Computational oncology research · Undergraduate Research Project<br/>
+      Data: TCGA · GEO · DepMap · SignaLink · SIGNOR · PhosphoSite</p>
+    </div>
+    <div class="footer-links">
+      <a href="index.html">Overview</a>
+      <a href="pages/methods.html">Methods</a>
+      <a href="pages/results.html">Results</a>
+      <a href="pages/network.html">Network</a>
+      <a href="pages/reproducibility.html">Reproducibility</a>
+      <a href="https://github.com/[YOUR-USERNAME]/pdac-circuit-framework" target="_blank">GitHub</a>
+    </div>
+    <div class="footer-right">
+      <p>All datasets are publicly available and de-identified.<br/>
+      MIT License · R 4.6.0 · Seed: 12345</p>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
