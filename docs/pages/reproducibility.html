@@ -1,0 +1,123 @@
+PDAC Circuit Framework
+Overview Methods Results Network Reproducibility GitHub
+Reproducibility
+
+Every analysis step is documented, versioned, and reproducible from publicly available data.
+
+How to Reproduce This Analysis
+Terminal — Step by step
+# Step 1: Clone the repository
+git clone https://github.com/[YOUR-USERNAME]/pdac-circuit-framework.git
+cd pdac-circuit-framework
+
+# Step 2: Open R 4.6.0 and install all packages
+Rscript R/00_setup.R
+
+# Step 3: Download public datasets
+# Follow instructions in data/README_data.md
+# TCGA-PAAD → UCSC Xena · GSE183795 → GEO · DepMap → depmap.org
+
+# Step 4: Run analyses in order
+Rscript R/01_data_acquisition.R   # Download + preprocess data
+Rscript R/02_circuit_scores.R     # Compute CDS + assign subtypes
+Rscript R/03_subtype_clustering.R # ConsensusClusterPlus 1000x
+Rscript R/04_survival_analysis.R  # Cox · KM · C-index · DCA
+Rscript R/05_external_validation.R# Apply to GSE183795 without retraining
+Rscript R/06_gsea.R               # fgsea Hallmark enrichment
+Rscript R/07_boolean_network.R    # BoolNet attractor analysis
+Rscript R/08_crispr_dependency.R  # DepMap essentiality screening
+Rscript R/09_classifier.R         # Elastic net + permutation + SHAP
+Rscript R/10_correlation_matrix.R # Spearman cross-circuit correlations
+Rscript R/11_figures.R            # Generate all manuscript figures
+Complete Package Version Log
+Package	Version	Purpose
+survival	3.5.7	Cox regression, Kaplan-Meier analysis
+survminer	0.4.9	Survival visualisation
+ConsensusClusterPlus	1.64.0	Subtype consensus clustering
+BoolNet	2.1.9	Boolean network simulation
+fgsea	1.26.0	Gene set enrichment analysis
+caret	6.0.94	Elastic net classifier
+glmnet	4.1.8	Penalised regression backend
+pROC	1.18.5	ROC and AUC analysis
+fastshap	0.1.0	SHAP explainability
+depmap	1.14.0	Cancer Dependency Map access
+GEOquery	2.68.0	GEO dataset retrieval
+OmnipathR	3.8.0	Protein interaction network
+dcurves	0.5.0	Decision curve analysis
+rms	6.7.1	Calibration analysis
+timeROC	0.4	Time-dependent ROC
+ggplot2	3.4.4	Figure generation
+pheatmap	1.0.12	Heatmap visualisation
+corrplot	0.92	Correlation matrix
+forestplot	3.1.3	Forest plots
+MLmetrics	1.1.3	Multiclass AUC
+igraph	1.5.1	Network topology analysis
+UCSCXenaTools	1.4.7	TCGA-PAAD download
+msigdbr	7.5.1	MSigDB gene sets in R
+Random seed: All stochastic analyses use set.seed(12345), applied at the top of every script. The full session info including all loaded packages and their exact versions is provided in docs/session_info.txt.
+
+Repository File Structure
+Complete repository layout
+pdac-circuit-framework/
+│
+├── README.md                          ← Project overview + quick start
+├── LICENSE                            ← MIT License
+├── CITATION.cff                       ← Citation metadata
+│
+├── R/                                 ← All analysis scripts
+│   ├── 00_setup.R                     ← Packages + seed + parameters
+│   ├── 01_data_acquisition.R          ← TCGA + GEO + DepMap download
+│   ├── 02_circuit_scores.R            ← CDS computation + normalisation
+│   ├── 03_subtype_clustering.R        ← ConsensusClusterPlus
+│   ├── 04_survival_analysis.R         ← Cox · KM · C-index · DCA
+│   ├── 05_external_validation.R       ← GSE183795 held-out validation
+│   ├── 06_gsea.R                      ← fgsea Hallmark enrichment
+│   ├── 07_boolean_network.R           ← BoolNet construction + attractors
+│   ├── 08_crispr_dependency.R         ← DepMap gene-effect analysis
+│   ├── 09_classifier.R                ← Elastic net + permutation + SHAP
+│   ├── 10_correlation_matrix.R        ← Spearman cross-circuit analysis
+│   └── 11_figures.R                   ← All manuscript figures
+│
+├── data/
+│   ├── README_data.md                 ← Download instructions
+│   └── gene_sets/
+│       ├── pH_circuit_genes.txt
+│       ├── death_circuit_genes.txt
+│       └── cycle_circuit_genes.txt
+│
+├── results/                           ← Key numerical outputs
+│   ├── circuit_dependency_scores.csv
+│   ├── cox_model_discovery.csv
+│   ├── cox_model_validation.csv
+│   ├── subtype_assignments.csv
+│   ├── boolean_attractor_results.csv
+│   ├── crispr_essentiality.csv
+│   └── classifier_performance.csv
+│
+├── figures/                           ← All generated figures (JPEG)
+│
+└── docs/                              ← GitHub Pages website
+    ├── index.html
+    ├── assets/css/main.css
+    ├── assets/js/main.js
+    └── pages/
+        ├── methods.html
+        ├── results.html
+        ├── network.html
+        └── reproducibility.html
+Data Sources and Access
+Dataset	Accession / Source	n	Platform
+TCGA-PAAD	UCSC Xena — xenabrowser.net	183 tumours	Illumina HiSeq RNA-seq
+GSE183795	NCBI GEO — ncbi.nlm.nih.gov/geo	134 tumours	Affymetrix HG 2.0 ST Array
+DepMap 23Q4	depmap.org/portal/download	47 PDAC lines	CRISPR-Cas9 (CERES)
+SignaLink 2	signalink.org / OmnipathR	Network edges	Literature-curated
+SIGNOR	signor.uniroma2.it / OmnipathR	Network edges	Literature-curated
+PhosphoSite	phosphosite.org / OmnipathR	Network edges	Literature-curated
+MSigDB Hallmark	gsea-msigdb.org — v2023.2	50 gene sets	Broad Institute
+All datasets are publicly available and were de-identified prior to access. This study involves no recruitment of human subjects, no collection of biological specimens, and no animal experimentation. No raw data are stored in this repository.
+
+PDAC Circuit Framework
+Computational oncology · Undergraduate Research
+
+OverviewMethodsResults NetworkReproducibility GitHub
+MIT License · R 4.6.0 · Seed: 12345
