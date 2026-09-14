@@ -1,56 +1,122 @@
-PDAC Circuit Framework
-Overview Methods Results Network Reproducibility GitHub
-Boolean Network Model
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Network | PDAC Circuit Framework</title>
+<link rel="stylesheet" href="../assets/css/main.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+</head>
+<body>
+<nav class="navbar">
+  <div class="nav-inner">
+    <div class="nav-brand"><span class="brand-accent">PDAC</span><span class="brand-text"> Circuit Framework</span></div>
+    <div class="nav-links">
+      <a href="../index.html">Overview</a>
+      <a href="methods.html">Methods</a>
+      <a href="results.html">Results</a>
+      <a href="network.html" class="active">Network</a>
+      <a href="reproducibility.html">Reproducibility</a>
+      <a href="https://github.com/[YOUR-USERNAME]/pdac-circuit-framework" target="_blank" class="nav-github">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
+    </div>
+  </div>
+</nav>
 
-20-node regulatory network · All rules from primary literature · Full state-space attractor analysis
+<div class="page-header">
+  <h1>Boolean Network Model</h1>
+  <p>20-node regulatory network · All rules from primary literature · Full state-space attractor analysis</p>
+</div>
 
-Network Nodes and Circuit Assignments
-Node	Full Name	Circuit	Role
-KRAS	KRAS proto-oncogene	Input	Master oncogenic driver — fixed ON
-TP53	Tumour protein p53	Input/Drug	Activated by gemcitabine-induced DNA damage
-Hypoxia	Tumour hypoxic state	Input	Environmental oxygen tension
-HIF1A	Hypoxia-inducible factor 1-alpha	pH/Hypoxia	HIF1A = KRAS | Hypoxia
-CA9	Carbonic anhydrase IX	pH/Hypoxia	CA9 = HIF1A · Drug target: SLC-0111
-CA12	Carbonic anhydrase XII	pH/Hypoxia	CA12 = HIF1A
-MAP3K7	TAK1 kinase	NF-κB Hub	MAP3K7 = KRAS | RELA
-CHUK	IKKα kinase	NF-κB Hub	CHUK = MAP3K7
-RELA	NF-κB p65	NF-κB Hub	RELA = (CA9 | MAP3K7 | CHUK) & !TP53 · Critical bottleneck
-CCND1	Cyclin D1	Cell Cycle	CCND1 = RELA | KRAS
-CDK4	Cyclin-dependent kinase 4	Cell Cycle	CDK4 = CCND1 & !TP53 · Drug target: Palbociclib
-TTK	TTK kinase / MPS1	Cell Cycle	TTK = CDK4 · Spindle assembly checkpoint
-BCL2	B-cell lymphoma 2	Death Suppr.	BCL2 = RELA & !TP53 · Critical bottleneck
-BCL2L1	BCL-XL	Death Suppr.	BCL2L1 = RELA · Sequesters CASP9
-BAX	BCL2-associated X protein	Death Suppr.	BAX = TP53 & !BCL2
-APAF1	Apoptotic peptidase activating factor 1	Death Suppr.	APAF1 = BAX
-CASP9	Caspase-9 (initiator)	Death Suppr.	CASP9 = APAF1 & !BCL2L1
-FADD	FAS-associated death domain	Death Suppr.	FADD = !BCL2
-CASP8	Caspase-8 (extrinsic initiator)	Death Suppr.	CASP8 = FADD
-CASP3	Caspase-3 (executioner)	Death Suppr.	CASP3 = CASP9 | CASP8 · Death output node
-Drug Perturbation Simulations
-Condition	Boolean Implementation	Death Attractor %	Change from Baseline
-No treatment	Unperturbed	50.4%	—
-Palbociclib (CDK4/6 inhibitor)	fixGenes(CDK4 = 0)	50.4%	0.0 pts — complete compensation
-SLC-0111 (CA9/CA12 inhibitor)	fixGenes(CA9 = 0)	56.3%	+5.9 pts
-Gemcitabine (TP53 activation)	fixGenes(TP53 = 1)	100.0%*	*Boolean simplification — see caveat below
-SLC-0111 + Palbociclib	fixGenes(CA9=0, CDK4=0)	56.3%	No improvement over single pH-arm
-Triple combination	fixGenes(CA9=0, CDK4=0, TP53=1)	100.0%	+49.6 pts — complete collapse
-⚠ Gemcitabine is modelled as TP53 = 1 (Boolean ON), which in the model produces 100% death trajectories. This is a simplification — in reality, BCL2L1-mediated CASP9 sequestration limits actual apoptotic execution even when TP53 is activated. The Boolean model overestimates single-agent gemcitabine efficacy. All results should be interpreted as model-dependent and qualitative.
+<div class="container" style="padding-top:60px;padding-bottom:80px;">
 
-Single-Node Perturbation Analysis
-Node knocked out	Δ Death attractor %	Interpretation
-RELA	+49.6 pts → 100%	Complete circuit collapse — NF-κB hub bridges all three arms
-BCL2	+49.6 pts → 100%	Complete collapse — releases CASP9, disables BCL2-mediated buffering
-MAP3K7 (TAK1)	+12.1 pts → 62.5%	Meaningful partial shift — upstream of RELA
-BCL2L1	+8.4 pts → 58.8%	Partial — BCL2 compensates
-CA9	+5.9 pts → 56.3%	Modest — NF-κB has alternative inputs
-CDK4	0.0 pts — no change	Zero effect — explains CDK4/6 inhibitor monotherapy failure
-CCND1	0.0 pts — no change	Zero effect — complete network compensation
-TTK	0.0 pts — no change	Zero effect — downstream of CDK4
-CASP3	−49.6 pts → 0.8%	Pro-survival of knockout — removes death execution node
-Critical insight: RELA and BCL2 are the only two single nodes whose individual inactivation produces complete circuit collapse (+49.6 percentage points each). This identifies them as priority single-node therapeutic targets at the convergence of all three circuit arms. By contrast, CDK4, CCND1, and TTK produce zero change when individually knocked out, providing a computational explanation for why CDK4/6 inhibitors have shown minimal single-agent activity in PDAC despite confirmed genetic essentiality.
+  <div class="result-section">
+    <div class="result-section-title">Network Nodes and Circuit Assignments</div>
+    <div class="result-section-divider"></div>
+    <div class="results-table-container">
+      <table class="network-table">
+        <thead><tr><th>Node</th><th>Full Name</th><th>Circuit</th><th>Role</th></tr></thead>
+        <tbody>
+          <tr><td>KRAS</td><td>KRAS proto-oncogene</td><td><span class="tag tag-input">Input</span></td><td>Master oncogenic driver — fixed ON</td></tr>
+          <tr><td>TP53</td><td>Tumour protein p53</td><td><span class="tag tag-input">Input/Drug</span></td><td>Activated by gemcitabine-induced DNA damage</td></tr>
+          <tr><td>Hypoxia</td><td>Tumour hypoxic state</td><td><span class="tag tag-input">Input</span></td><td>Environmental oxygen tension</td></tr>
+          <tr><td>HIF1A</td><td>Hypoxia-inducible factor 1-alpha</td><td><span class="tag tag-ph">pH/Hypoxia</span></td><td>HIF1A = KRAS | Hypoxia</td></tr>
+          <tr><td>CA9</td><td>Carbonic anhydrase IX</td><td><span class="tag tag-ph">pH/Hypoxia</span></td><td>CA9 = HIF1A · Drug target: SLC-0111</td></tr>
+          <tr><td>CA12</td><td>Carbonic anhydrase XII</td><td><span class="tag tag-ph">pH/Hypoxia</span></td><td>CA12 = HIF1A</td></tr>
+          <tr><td>MAP3K7</td><td>TAK1 kinase</td><td><span class="tag tag-nfkb">NF-κB Hub</span></td><td>MAP3K7 = KRAS | RELA</td></tr>
+          <tr><td>CHUK</td><td>IKKα kinase</td><td><span class="tag tag-nfkb">NF-κB Hub</span></td><td>CHUK = MAP3K7</td></tr>
+          <tr><td>RELA</td><td>NF-κB p65</td><td><span class="tag tag-nfkb">NF-κB Hub</span></td><td>RELA = (CA9 | MAP3K7 | CHUK) & !TP53 · Critical bottleneck</td></tr>
+          <tr><td>CCND1</td><td>Cyclin D1</td><td><span class="tag tag-cycle">Cell Cycle</span></td><td>CCND1 = RELA | KRAS</td></tr>
+          <tr><td>CDK4</td><td>Cyclin-dependent kinase 4</td><td><span class="tag tag-cycle">Cell Cycle</span></td><td>CDK4 = CCND1 & !TP53 · Drug target: Palbociclib</td></tr>
+          <tr><td>TTK</td><td>TTK kinase / MPS1</td><td><span class="tag tag-cycle">Cell Cycle</span></td><td>TTK = CDK4 · Spindle assembly checkpoint</td></tr>
+          <tr><td>BCL2</td><td>B-cell lymphoma 2</td><td><span class="tag tag-death">Death Suppr.</span></td><td>BCL2 = RELA & !TP53 · Critical bottleneck</td></tr>
+          <tr><td>BCL2L1</td><td>BCL-XL</td><td><span class="tag tag-death">Death Suppr.</span></td><td>BCL2L1 = RELA · Sequesters CASP9</td></tr>
+          <tr><td>BAX</td><td>BCL2-associated X protein</td><td><span class="tag tag-death">Death Suppr.</span></td><td>BAX = TP53 & !BCL2</td></tr>
+          <tr><td>APAF1</td><td>Apoptotic peptidase activating factor 1</td><td><span class="tag tag-death">Death Suppr.</span></td><td>APAF1 = BAX</td></tr>
+          <tr><td>CASP9</td><td>Caspase-9 (initiator)</td><td><span class="tag tag-death">Death Suppr.</span></td><td>CASP9 = APAF1 & !BCL2L1</td></tr>
+          <tr><td>FADD</td><td>FAS-associated death domain</td><td><span class="tag tag-death">Death Suppr.</span></td><td>FADD = !BCL2</td></tr>
+          <tr><td>CASP8</td><td>Caspase-8 (extrinsic initiator)</td><td><span class="tag tag-death">Death Suppr.</span></td><td>CASP8 = FADD</td></tr>
+          <tr><td>CASP3</td><td>Caspase-3 (executioner)</td><td><span class="tag tag-death">Death Suppr.</span></td><td>CASP3 = CASP9 | CASP8 · Death output node</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-PDAC Circuit Framework
-Computational oncology · Undergraduate Research
+  <div class="result-section">
+    <div class="result-section-title">Drug Perturbation Simulations</div>
+    <div class="result-section-divider"></div>
+    <div class="results-table-container">
+      <table class="results-table">
+        <thead><tr><th>Condition</th><th>Boolean Implementation</th><th>Death Attractor %</th><th>Change from Baseline</th></tr></thead>
+        <tbody>
+          <tr><td>No treatment</td><td>Unperturbed</td><td class="mono">50.4%</td><td>—</td></tr>
+          <tr><td>Palbociclib (CDK4/6 inhibitor)</td><td>fixGenes(CDK4 = 0)</td><td class="mono">50.4%</td><td>0.0 pts — complete compensation</td></tr>
+          <tr><td>SLC-0111 (CA9/CA12 inhibitor)</td><td>fixGenes(CA9 = 0)</td><td class="mono">56.3%</td><td>+5.9 pts</td></tr>
+          <tr><td>Gemcitabine (TP53 activation)</td><td>fixGenes(TP53 = 1)</td><td class="mono">100.0%*</td><td>*Boolean simplification — see caveat below</td></tr>
+          <tr><td>SLC-0111 + Palbociclib</td><td>fixGenes(CA9=0, CDK4=0)</td><td class="mono">56.3%</td><td>No improvement over single pH-arm</td></tr>
+          <tr><td class="highlight">Triple combination</td><td>fixGenes(CA9=0, CDK4=0, TP53=1)</td><td class="mono highlight">100.0%</td><td class="highlight">+49.6 pts — complete collapse</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="warning-box" style="margin-top:16px;"><p>⚠ Gemcitabine is modelled as TP53 = 1 (Boolean ON), which in the model produces 100% death trajectories. This is a simplification — in reality, BCL2L1-mediated CASP9 sequestration limits actual apoptotic execution even when TP53 is activated. The Boolean model overestimates single-agent gemcitabine efficacy. All results should be interpreted as model-dependent and qualitative.</p></div>
+  </div>
 
-OverviewMethodsResults NetworkReproducibility GitHub
-MIT License · R 4.6.0 · Seed: 12345
+  <div class="result-section">
+    <div class="result-section-title">Single-Node Perturbation Analysis</div>
+    <div class="result-section-divider"></div>
+    <div class="results-table-container">
+      <table class="results-table">
+        <thead><tr><th>Node knocked out</th><th>Δ Death attractor %</th><th>Interpretation</th></tr></thead>
+        <tbody>
+          <tr><td class="highlight">RELA</td><td class="mono highlight">+49.6 pts → 100%</td><td>Complete circuit collapse — NF-κB hub bridges all three arms</td></tr>
+          <tr><td class="highlight">BCL2</td><td class="mono highlight">+49.6 pts → 100%</td><td>Complete collapse — releases CASP9, disables BCL2-mediated buffering</td></tr>
+          <tr><td>MAP3K7 (TAK1)</td><td class="mono">+12.1 pts → 62.5%</td><td>Meaningful partial shift — upstream of RELA</td></tr>
+          <tr><td>BCL2L1</td><td class="mono">+8.4 pts → 58.8%</td><td>Partial — BCL2 compensates</td></tr>
+          <tr><td>CA9</td><td class="mono">+5.9 pts → 56.3%</td><td>Modest — NF-κB has alternative inputs</td></tr>
+          <tr><td>CDK4</td><td class="mono">0.0 pts — no change</td><td>Zero effect — explains CDK4/6 inhibitor monotherapy failure</td></tr>
+          <tr><td>CCND1</td><td class="mono">0.0 pts — no change</td><td>Zero effect — complete network compensation</td></tr>
+          <tr><td>TTK</td><td class="mono">0.0 pts — no change</td><td>Zero effect — downstream of CDK4</td></tr>
+          <tr><td>CASP3</td><td class="mono">−49.6 pts → 0.8%</td><td>Pro-survival of knockout — removes death execution node</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="finding-box" style="margin-top:20px;">
+      <p><strong>Critical insight:</strong> RELA and BCL2 are the only two single nodes whose individual inactivation produces complete circuit collapse (+49.6 percentage points each). This identifies them as priority single-node therapeutic targets at the convergence of all three circuit arms. By contrast, CDK4, CCND1, and TTK produce zero change when individually knocked out, providing a computational explanation for why CDK4/6 inhibitors have shown minimal single-agent activity in PDAC despite confirmed genetic essentiality.</p>
+    </div>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-left"><div class="footer-brand"><span class="brand-accent">PDAC</span> Circuit Framework</div><p class="footer-desc">Computational oncology · Undergraduate Research</p></div>
+    <div class="footer-links">
+      <a href="../index.html">Overview</a><a href="methods.html">Methods</a><a href="results.html">Results</a>
+      <a href="network.html">Network</a><a href="reproducibility.html">Reproducibility</a>
+      <a href="https://github.com/[YOUR-USERNAME]/pdac-circuit-framework" target="_blank">GitHub</a>
+    </div>
+    <div class="footer-right"><p>MIT License · R 4.6.0 · Seed: 12345</p></div>
+  </div>
+</footer>
+</body>
+</html>
