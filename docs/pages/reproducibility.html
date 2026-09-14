@@ -1,91 +1,137 @@
-PDAC Circuit Framework
-Overview Methods Results Network Reproducibility GitHub
-Reproducibility
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Reproducibility | PDAC Circuit Framework</title>
+<link rel="stylesheet" href="../assets/css/main.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+</head>
+<body>
+<nav class="navbar">
+  <div class="nav-inner">
+    <div class="nav-brand"><span class="brand-accent">PDAC</span><span class="brand-text"> Circuit Framework</span></div>
+    <div class="nav-links">
+      <a href="../index.html">Overview</a>
+      <a href="methods.html">Methods</a>
+      <a href="results.html">Results</a>
+      <a href="network.html">Network</a>
+      <a href="reproducibility.html" class="active">Reproducibility</a>
+      <a href="https://github.com/[YOUR-USERNAME]/pdac-circuit-framework" target="_blank" class="nav-github">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
+    </div>
+  </div>
+</nav>
 
-Every analysis step is documented, versioned, and reproducible from publicly available data.
+<div class="page-header">
+  <h1>Reproducibility</h1>
+  <p>Every analysis step is documented, versioned, and reproducible from publicly available data.</p>
+</div>
 
-How to Reproduce This Analysis
-Terminal — Step by step
-# Step 1: Clone the repository
+<div class="container" style="padding-top:60px;padding-bottom:80px;">
+
+  <div class="result-section">
+    <div class="result-section-title">How to Reproduce This Analysis</div>
+    <div class="result-section-divider"></div>
+    <div class="code-block">
+      <span class="code-label">Terminal — Step by step</span>
+      <pre><span class="code-comment"># Step 1: Clone the repository</span>
 git clone https://github.com/[YOUR-USERNAME]/pdac-circuit-framework.git
 cd pdac-circuit-framework
 
-# Step 2: Open R 4.6.0 and install all packages
+<span class="code-comment"># Step 2: Open R 4.6.0 and install all packages</span>
 Rscript R/00_setup.R
 
-# Step 3: Download public datasets
-# Follow instructions in data/README_data.md
-# TCGA-PAAD → UCSC Xena · GSE183795 → GEO · DepMap → depmap.org
+<span class="code-comment"># Step 3: Download public datasets</span>
+<span class="code-comment"># Follow instructions in data/README_data.md</span>
+<span class="code-comment"># TCGA-PAAD → UCSC Xena · GSE183795 → GEO · DepMap → depmap.org</span>
 
-# Step 4: Run analyses in order
-Rscript R/01_data_acquisition.R   # Download + preprocess data
-Rscript R/02_circuit_scores.R     # Compute CDS + assign subtypes
-Rscript R/03_subtype_clustering.R # ConsensusClusterPlus 1000x
-Rscript R/04_survival_analysis.R  # Cox · KM · C-index · DCA
-Rscript R/05_external_validation.R# Apply to GSE183795 without retraining
-Rscript R/06_gsea.R               # fgsea Hallmark enrichment
-Rscript R/07_boolean_network.R    # BoolNet attractor analysis
-Rscript R/08_crispr_dependency.R  # DepMap essentiality screening
-Rscript R/09_classifier.R         # Elastic net + permutation + SHAP
-Rscript R/10_correlation_matrix.R # Spearman cross-circuit correlations
-Rscript R/11_figures.R            # Generate all manuscript figures
-Complete Package Version Log
-Package	Version	Purpose
-survival	3.5.7	Cox regression, Kaplan-Meier analysis
-survminer	0.4.9	Survival visualisation
-ConsensusClusterPlus	1.64.0	Subtype consensus clustering
-BoolNet	2.1.9	Boolean network simulation
-fgsea	1.26.0	Gene set enrichment analysis
-caret	6.0.94	Elastic net classifier
-glmnet	4.1.8	Penalised regression backend
-pROC	1.18.5	ROC and AUC analysis
-fastshap	0.1.0	SHAP explainability
-depmap	1.14.0	Cancer Dependency Map access
-GEOquery	2.68.0	GEO dataset retrieval
-OmnipathR	3.8.0	Protein interaction network
-dcurves	0.5.0	Decision curve analysis
-rms	6.7.1	Calibration analysis
-timeROC	0.4	Time-dependent ROC
-ggplot2	3.4.4	Figure generation
-pheatmap	1.0.12	Heatmap visualisation
-corrplot	0.92	Correlation matrix
-forestplot	3.1.3	Forest plots
-MLmetrics	1.1.3	Multiclass AUC
-igraph	1.5.1	Network topology analysis
-UCSCXenaTools	1.4.7	TCGA-PAAD download
-msigdbr	7.5.1	MSigDB gene sets in R
-Random seed: All stochastic analyses use set.seed(12345), applied at the top of every script. The full session info including all loaded packages and their exact versions is provided in docs/session_info.txt.
+<span class="code-comment"># Step 4: Run analyses in order</span>
+Rscript R/01_data_acquisition.R   <span class="code-comment"># Download + preprocess data</span>
+Rscript R/02_circuit_scores.R     <span class="code-comment"># Compute CDS + assign subtypes</span>
+Rscript R/03_subtype_clustering.R <span class="code-comment"># ConsensusClusterPlus 1000x</span>
+Rscript R/04_survival_analysis.R  <span class="code-comment"># Cox · KM · C-index · DCA</span>
+Rscript R/05_external_validation.R<span class="code-comment"># Apply to GSE183795 without retraining</span>
+Rscript R/06_gsea.R               <span class="code-comment"># fgsea Hallmark enrichment</span>
+Rscript R/07_boolean_network.R    <span class="code-comment"># BoolNet attractor analysis</span>
+Rscript R/08_crispr_dependency.R  <span class="code-comment"># DepMap essentiality screening</span>
+Rscript R/09_classifier.R         <span class="code-comment"># Elastic net + permutation + SHAP</span>
+Rscript R/10_correlation_matrix.R <span class="code-comment"># Spearman cross-circuit correlations</span>
+Rscript R/11_figures.R            <span class="code-comment"># Generate all manuscript figures</span></pre>
+    </div>
+  </div>
 
-Repository File Structure
-Complete repository layout
-pdac-circuit-framework/
+  <div class="result-section">
+    <div class="result-section-title">Complete Package Version Log</div>
+    <div class="result-section-divider"></div>
+    <div class="results-table-container">
+      <table class="results-table">
+        <thead><tr><th>Package</th><th>Version</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">survival</td><td class="mono">3.5.7</td><td>Cox regression, Kaplan-Meier analysis</td></tr>
+          <tr><td class="mono">survminer</td><td class="mono">0.4.9</td><td>Survival visualisation</td></tr>
+          <tr><td class="mono">ConsensusClusterPlus</td><td class="mono">1.64.0</td><td>Subtype consensus clustering</td></tr>
+          <tr><td class="mono">BoolNet</td><td class="mono">2.1.9</td><td>Boolean network simulation</td></tr>
+          <tr><td class="mono">fgsea</td><td class="mono">1.26.0</td><td>Gene set enrichment analysis</td></tr>
+          <tr><td class="mono">caret</td><td class="mono">6.0.94</td><td>Elastic net classifier</td></tr>
+          <tr><td class="mono">glmnet</td><td class="mono">4.1.8</td><td>Penalised regression backend</td></tr>
+          <tr><td class="mono">pROC</td><td class="mono">1.18.5</td><td>ROC and AUC analysis</td></tr>
+          <tr><td class="mono">fastshap</td><td class="mono">0.1.0</td><td>SHAP explainability</td></tr>
+          <tr><td class="mono">depmap</td><td class="mono">1.14.0</td><td>Cancer Dependency Map access</td></tr>
+          <tr><td class="mono">GEOquery</td><td class="mono">2.68.0</td><td>GEO dataset retrieval</td></tr>
+          <tr><td class="mono">OmnipathR</td><td class="mono">3.8.0</td><td>Protein interaction network</td></tr>
+          <tr><td class="mono">dcurves</td><td class="mono">0.5.0</td><td>Decision curve analysis</td></tr>
+          <tr><td class="mono">rms</td><td class="mono">6.7.1</td><td>Calibration analysis</td></tr>
+          <tr><td class="mono">timeROC</td><td class="mono">0.4</td><td>Time-dependent ROC</td></tr>
+          <tr><td class="mono">ggplot2</td><td class="mono">3.4.4</td><td>Figure generation</td></tr>
+          <tr><td class="mono">pheatmap</td><td class="mono">1.0.12</td><td>Heatmap visualisation</td></tr>
+          <tr><td class="mono">corrplot</td><td class="mono">0.92</td><td>Correlation matrix</td></tr>
+          <tr><td class="mono">forestplot</td><td class="mono">3.1.3</td><td>Forest plots</td></tr>
+          <tr><td class="mono">MLmetrics</td><td class="mono">1.1.3</td><td>Multiclass AUC</td></tr>
+          <tr><td class="mono">igraph</td><td class="mono">1.5.1</td><td>Network topology analysis</td></tr>
+          <tr><td class="mono">UCSCXenaTools</td><td class="mono">1.4.7</td><td>TCGA-PAAD download</td></tr>
+          <tr><td class="mono">msigdbr</td><td class="mono">7.5.1</td><td>MSigDB gene sets in R</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="finding-box" style="margin-top:20px;">
+      <p><strong>Random seed:</strong> All stochastic analyses use <span class="mono">set.seed(12345)</span>, applied at the top of every script. The full session info including all loaded packages and their exact versions is provided in <span class="mono">docs/session_info.txt</span>.</p>
+    </div>
+  </div>
+
+  <div class="result-section">
+    <div class="result-section-title">Repository File Structure</div>
+    <div class="result-section-divider"></div>
+    <div class="code-block">
+      <span class="code-label">Complete repository layout</span>
+      <pre>pdac-circuit-framework/
 │
-├── README.md                          ← Project overview + quick start
-├── LICENSE                            ← MIT License
-├── CITATION.cff                       ← Citation metadata
+├── README.md                          <span class="code-comment">← Project overview + quick start</span>
+├── LICENSE                            <span class="code-comment">← MIT License</span>
+├── CITATION.cff                       <span class="code-comment">← Citation metadata</span>
 │
-├── R/                                 ← All analysis scripts
-│   ├── 00_setup.R                     ← Packages + seed + parameters
-│   ├── 01_data_acquisition.R          ← TCGA + GEO + DepMap download
-│   ├── 02_circuit_scores.R            ← CDS computation + normalisation
-│   ├── 03_subtype_clustering.R        ← ConsensusClusterPlus
-│   ├── 04_survival_analysis.R         ← Cox · KM · C-index · DCA
-│   ├── 05_external_validation.R       ← GSE183795 held-out validation
-│   ├── 06_gsea.R                      ← fgsea Hallmark enrichment
-│   ├── 07_boolean_network.R           ← BoolNet construction + attractors
-│   ├── 08_crispr_dependency.R         ← DepMap gene-effect analysis
-│   ├── 09_classifier.R                ← Elastic net + permutation + SHAP
-│   ├── 10_correlation_matrix.R        ← Spearman cross-circuit analysis
-│   └── 11_figures.R                   ← All manuscript figures
+├── R/                                 <span class="code-comment">← All analysis scripts</span>
+│   ├── 00_setup.R                     <span class="code-comment">← Packages + seed + parameters</span>
+│   ├── 01_data_acquisition.R          <span class="code-comment">← TCGA + GEO + DepMap download</span>
+│   ├── 02_circuit_scores.R            <span class="code-comment">← CDS computation + normalisation</span>
+│   ├── 03_subtype_clustering.R        <span class="code-comment">← ConsensusClusterPlus</span>
+│   ├── 04_survival_analysis.R         <span class="code-comment">← Cox · KM · C-index · DCA</span>
+│   ├── 05_external_validation.R       <span class="code-comment">← GSE183795 held-out validation</span>
+│   ├── 06_gsea.R                      <span class="code-comment">← fgsea Hallmark enrichment</span>
+│   ├── 07_boolean_network.R           <span class="code-comment">← BoolNet construction + attractors</span>
+│   ├── 08_crispr_dependency.R         <span class="code-comment">← DepMap gene-effect analysis</span>
+│   ├── 09_classifier.R                <span class="code-comment">← Elastic net + permutation + SHAP</span>
+│   ├── 10_correlation_matrix.R        <span class="code-comment">← Spearman cross-circuit analysis</span>
+│   └── 11_figures.R                   <span class="code-comment">← All manuscript figures</span>
 │
 ├── data/
-│   ├── README_data.md                 ← Download instructions
+│   ├── README_data.md                 <span class="code-comment">← Download instructions</span>
 │   └── gene_sets/
 │       ├── pH_circuit_genes.txt
 │       ├── death_circuit_genes.txt
 │       └── cycle_circuit_genes.txt
 │
-├── results/                           ← Key numerical outputs
+├── results/                           <span class="code-comment">← Key numerical outputs</span>
 │   ├── circuit_dependency_scores.csv
 │   ├── cox_model_discovery.csv
 │   ├── cox_model_validation.csv
@@ -94,9 +140,9 @@ pdac-circuit-framework/
 │   ├── crispr_essentiality.csv
 │   └── classifier_performance.csv
 │
-├── figures/                           ← All generated figures (JPEG)
+├── figures/                           <span class="code-comment">← All generated figures (JPEG)</span>
 │
-└── docs/                              ← GitHub Pages website
+└── docs/                              <span class="code-comment">← GitHub Pages website</span>
     ├── index.html
     ├── assets/css/main.css
     ├── assets/js/main.js
@@ -104,20 +150,42 @@ pdac-circuit-framework/
         ├── methods.html
         ├── results.html
         ├── network.html
-        └── reproducibility.html
-Data Sources and Access
-Dataset	Accession / Source	n	Platform
-TCGA-PAAD	UCSC Xena — xenabrowser.net	183 tumours	Illumina HiSeq RNA-seq
-GSE183795	NCBI GEO — ncbi.nlm.nih.gov/geo	134 tumours	Affymetrix HG 2.0 ST Array
-DepMap 23Q4	depmap.org/portal/download	47 PDAC lines	CRISPR-Cas9 (CERES)
-SignaLink 2	signalink.org / OmnipathR	Network edges	Literature-curated
-SIGNOR	signor.uniroma2.it / OmnipathR	Network edges	Literature-curated
-PhosphoSite	phosphosite.org / OmnipathR	Network edges	Literature-curated
-MSigDB Hallmark	gsea-msigdb.org — v2023.2	50 gene sets	Broad Institute
-All datasets are publicly available and were de-identified prior to access. This study involves no recruitment of human subjects, no collection of biological specimens, and no animal experimentation. No raw data are stored in this repository.
+        └── reproducibility.html</pre>
+    </div>
+  </div>
 
-PDAC Circuit Framework
-Computational oncology · Undergraduate Research
+  <div class="result-section">
+    <div class="result-section-title">Data Sources and Access</div>
+    <div class="result-section-divider"></div>
+    <div class="results-table-container">
+      <table class="results-table">
+        <thead><tr><th>Dataset</th><th>Accession / Source</th><th>n</th><th>Platform</th></tr></thead>
+        <tbody>
+          <tr><td>TCGA-PAAD</td><td>UCSC Xena — xenabrowser.net</td><td>183 tumours</td><td>Illumina HiSeq RNA-seq</td></tr>
+          <tr><td>GSE183795</td><td>NCBI GEO — ncbi.nlm.nih.gov/geo</td><td>134 tumours</td><td>Affymetrix HG 2.0 ST Array</td></tr>
+          <tr><td>DepMap 23Q4</td><td>depmap.org/portal/download</td><td>47 PDAC lines</td><td>CRISPR-Cas9 (CERES)</td></tr>
+          <tr><td>SignaLink 2</td><td>signalink.org / OmnipathR</td><td>Network edges</td><td>Literature-curated</td></tr>
+          <tr><td>SIGNOR</td><td>signor.uniroma2.it / OmnipathR</td><td>Network edges</td><td>Literature-curated</td></tr>
+          <tr><td>PhosphoSite</td><td>phosphosite.org / OmnipathR</td><td>Network edges</td><td>Literature-curated</td></tr>
+          <tr><td>MSigDB Hallmark</td><td>gsea-msigdb.org — v2023.2</td><td>50 gene sets</td><td>Broad Institute</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:0.85rem;color:var(--text-light);margin-top:16px;">All datasets are publicly available and were de-identified prior to access. This study involves no recruitment of human subjects, no collection of biological specimens, and no animal experimentation. No raw data are stored in this repository.</p>
+  </div>
 
-OverviewMethodsResults NetworkReproducibility GitHub
-MIT License · R 4.6.0 · Seed: 12345
+</div>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-left"><div class="footer-brand"><span class="brand-accent">PDAC</span> Circuit Framework</div><p class="footer-desc">Computational oncology · Undergraduate Research</p></div>
+    <div class="footer-links">
+      <a href="../index.html">Overview</a><a href="methods.html">Methods</a><a href="results.html">Results</a>
+      <a href="network.html">Network</a><a href="reproducibility.html">Reproducibility</a>
+      <a href="https://github.com/[YOUR-USERNAME]/pdac-circuit-framework" target="_blank">GitHub</a>
+    </div>
+    <div class="footer-right"><p>MIT License · R 4.6.0 · Seed: 12345</p></div>
+  </div>
+</footer>
+</body>
+</html>
