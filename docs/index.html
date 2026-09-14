@@ -1,0 +1,139 @@
+PDAC Circuit Framework
+Overview Methods Results Network Reproducibility  GitHub
+Computational Oncology · Systems Biology · Undergraduate Research
+Three Coupled Survival Circuits
+Govern Adaptive Resistance
+in KRAS-Mutant PDAC
+
+A multi-cohort transcriptomic, Boolean network, and CRISPR-validated computational framework integrating 183 TCGA-PAAD patients, two independent validation cohorts, 47 PDAC cell lines, and mechanistic network simulation.
+
+Explore Results View Methods  View on GitHub
+ All findings are computational. Experimental validation is required before therapeutic conclusions can be drawn.
+183 TCGA-PAAD Patients
+134 External Validation (GSE183795)
+47 PDAC Cell Lines (CRISPR)
+44 Circuit Proteins
+1,000 Bootstrap Iterations
+Central Hypothesis
+Why does PDAC resist every drug?
+
+Over fifty molecularly targeted agents have failed in PDAC clinical trials. This study proposes that the answer lies not in individual pathway failure, but in a structurally redundant, three-circuit survival architecture.
+
+pH / Hypoxia Circuit
+
+KRAS→HIF1A→CA9/CA12 axis enables tumour cells to acidify the extracellular environment and sustain glycolytic metabolism under hypoxia.
+
+CA9 · CA12 · HIF1A · EGLN1 · HSP90AA1
+Target drug: SLC-0111 (CA9/CA12 inhibitor)
+Death Suppression Circuit
+
+BCL2-family proteins physically sequester CASP9 and BAX, preventing apoptosome assembly despite oncogene-driven replication stress.
+
+BCL2 · BCL2L1 · CASP9 · BAX · FADD · APAF1
+Target drug: Venetoclax / BCL2 family inhibitors
+Cell Cycle Circuit
+
+CDK4-Cyclin D1 complex phosphorylates the retinoblastoma protein, driving unrestrained G1→S progression and sustained mitotic cycling.
+
+CDK4 · CCND1 · TTK · SLC29A1
+Target drug: Palbociclib (CDK4/6 inhibitor)
+⟷
+The coupling hypothesis: These three circuits are not independent — they share regulatory nodes including RELA (NF-κB p65), which bridges all three arms. Single-circuit targeting allows the remaining circuits to compensate. Only simultaneous three-circuit disruption may prevent adaptive rewiring.
+Key Results
+Six Converging Lines of Evidence
+
+Each analytical layer independently supports the coupled-circuit hypothesis.
+
+r = −0.47
+BCL2 ↔ CASP9 Coupling
+Significant inverse co-expression across 183 patient tumours (FDR p < 0.001), consistent with BCL2-mediated CASP9 sequestration operative at population scale.
+View correlation matrix →
+p = 0.009
+Three Subtypes, Distinct Survival
+Consensus clustering (1,000 bootstrap iterations, stability 0.705–0.779) identifies three patient subtypes with significantly different overall survival by log-rank test.
+View survival curves →
+HR = 10.84
+Cell Cycle CDS Predicts Mortality
+Cell cycle circuit score independently predicts overall mortality after adjusting for age, stage, grade, and sex (95% CI 1.75–66.96, p = 0.010). Wide CI reflects exploratory cohort size.
+View Cox model →
+HR = 12.08
+External Validation (GSE183795)
+Same score applied without retraining to 134 patients at a separate institution on a different platform. Hazard ratio differs by only 0.15 units from discovery cohort (p = 0.0006).
+View validation results →
+100%
+Triple-Circuit Boolean Collapse
+Single and dual circuit inhibition: ≤56.3% death-attractor convergence. Simultaneous triple-circuit inhibition: 100%. No single or dual perturbation approached this threshold.
+Explore Boolean model →
+−1.13
+CCND1 CRISPR Essentiality
+CCND1 (−1.13), BCL2L1 (−0.83), TTK (−0.82), CDK4 (−0.50) exceed the DepMap essentiality threshold of −0.5 across 47 PDAC cell lines, confirming functional gene dependency.
+View CRISPR data →
+Boolean Network Simulation
+Why Single Agents Fail: A Computational Explanation
+
+A 20-node Boolean network model built from primary literature regulatory rules reveals that the PDAC circuit architecture provides complete compensation under single-agent treatment.
+
+No treatment
+50.4%
+Palbociclib alone
+50.4% — no change
+SLC-0111 alone
+56.3%
+SLC-0111 + Palbociclib
+56.3% — no improvement
+Triple combination
+100% — complete collapse
+Death-attractor basin fraction (% of state-space converging to cell-death state) under each simulated treatment condition. Single-node perturbation analysis identified RELA and BCL2 as the only individual nodes whose isolated inactivation is sufficient to produce complete circuit collapse (+49.6 percentage points each).
+Explore the Full Network Model
+Analytical Pipeline
+Six Independent Evidence Streams
+
+01
+Network Construction
+
+44 circuit proteins · 45 directed edges · SignaLink · SIGNOR · PhosphoSite
+
+→
+02
+Transcriptomic Coupling
+
+Spearman correlation · 183 TCGA patients · FDR correction · Cross-arm co-regulation
+
+→
+03
+Subtype Discovery
+
+ConsensusClusterPlus · 1,000 bootstraps · 3 subtypes · Stability ≥ 0.70
+
+→
+04
+Prognostic Validation
+
+Multivariate Cox · C-index · DCA · External replication · No retraining
+
+→
+05
+Boolean Simulation
+
+BoolNet · 20 nodes · Full state-space · Drug perturbations · Node knockouts
+
+→
+06
+CRISPR Validation
+
+DepMap · 47 PDAC lines · CERES scores · Essentiality threshold −0.5
+
+ Important Limitations and Caveats
+Computational only. No wet laboratory experiments were performed. All findings require experimental validation in cell line, organoid, and in vivo models.
+Classifier circularity. The internal AUC of 1.0 is expected — subtype labels were derived from the same circuit scores used as classifier inputs. External AUC of 0.742 is the meaningful metric.
+Wide confidence intervals. HR 95% CIs (1.75–66.96 in discovery; 2.89–50.43 in validation) reflect exploratory cohort sizes. Effect magnitudes require prospective confirmation.
+Boolean simplification. Binary gene logic cannot capture continuous biochemical dynamics. All Boolean predictions are qualitative and topology-dependent.
+Subtype B small n. 11 patients in Subtype B. Survival findings for this subgroup are hypothesis-generating only.
+pH arm in vitro. CA9 and HIF1A show minimal CRISPR dependency in normoxic cell culture. This does not negate their patient-tumour relevance.
+PDAC Circuit Framework
+Computational oncology research · Undergraduate Research Project
+Data: TCGA · GEO · DepMap · SignaLink · SIGNOR · PhosphoSite
+
+Overview Methods Results Network Reproducibility GitHub
+All datasets are publicly available and de-identified.
+MIT License · R 4.6.0 · Seed: 12345
