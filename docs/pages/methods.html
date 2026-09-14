@@ -1,0 +1,143 @@
+PDAC Circuit Framework
+Overview Methods Results Network Reproducibility GitHub
+Methods
+
+Complete analytical pipeline — reproducible, documented, and traceable to primary literature.
+
+Data Sources
+Dataset	n	Platform	Purpose	Access
+TCGA-PAAD	183 tumours	Illumina HiSeq RNA-seq	Discovery cohort	UCSC Xena
+GSE183795	134 tumours	Affymetrix HG 2.0 ST	External validation	GEO
+DepMap 23Q4	47 PDAC lines	CRISPR-Cas9 (CERES)	Functional validation	depmap.org
+SignaLink / SIGNOR / PhosphoSite	44 genes · 45 edges	Literature-curated	Network construction	OmnipathR
+MSigDB Hallmark	50 gene sets	v2023.2	GSEA	gsea-msigdb.org
+Analytical Pipeline Overview
+1
+Circuit Score Computation
+
+pH_CDS = mean log₂ expression of CA9, CA12, HIF1A, EGLN1, HSP90AA1
+death_CDS = mean of 11 apoptosis/NF-κB genes
+cycle_CDS = mean of CDK4, CCND1, TTK, SLC29A1
+Min-max normalisation to [0,1] within each cohort independently
+Subtype = argmax of three normalised scores per patient
+Script: R/02_circuit_scores.R
+2
+Consensus Clustering
+
+Package: ConsensusClusterPlus v1.64.0
+1,000 bootstrap iterations
+80% item resampling per iteration
+Hierarchical clustering · Pearson distance
+Stability criterion: within-cluster consensus ≥ 0.70
+Optimal k selected by delta area elbow
+Script: R/03_subtype_clustering.R
+3
+Survival Analysis
+
+Kaplan-Meier + log-rank test (survdiff)
+Multivariate Cox: age + stage + grade + sex + 3 CDS scores
+Proportional hazards verified by Schoenfeld residuals (cox.zph)
+Discrimination: Harrell's concordance index
+Decision curve analysis (dcurves v0.5.0)
+Calibration (rms v6.7.1, B=200 bootstraps)
+Script: R/04_survival_analysis.R
+4
+External Validation
+
+GSE183795: same gene sets, cohort-internal normalisation
+Discovery-cohort Cox coefficients applied without retraining
+No parameter adjustment or recalibration
+Held-out application — most conservative generalizability test
+Platform: Affymetrix vs Illumina RNA-seq (cross-platform)
+Script: R/05_external_validation.R
+5
+GSEA
+
+Package: fgsea v1.26.0
+Gene sets: MSigDB Hallmark v2023.2 (50 pathways)
+Ranked list: mean log₂ expression difference, subtype vs rest
+Parameters: minSize=15, maxSize=500, nperm=10,000
+FDR correction: Benjamini-Hochberg
+Significance: FDR p < 0.05
+Script: R/06_gsea.R
+6
+Boolean Network
+
+Package: BoolNet v2.1.9
+20 nodes · Rules from primary experimental literature
+Synchronous update · Full state-space attractor enumeration
+Drug: fixGenes() constrains node to drug-induced state
+Death attractor: CASP3=1 OR (CASP9=1 AND BCL2L1=0)
+Systematic single-node perturbation across all 16 non-input nodes
+Script: R/07_boolean_network.R
+7
+CRISPR Dependency
+
+Source: DepMap 23Q4 (CERES-normalised)
+Package: depmap v1.14.0
+47 PDAC cell lines (LINEAGE = PANCREAS)
+Essentiality threshold: gene-effect < −0.5
+KRAS = internal positive control (expected ~−1.30)
+Script: R/08_crispr_dependency.R
+8
+Classifier + Permutation + SHAP
+
+Elastic net via caret v6.0.94 + glmnet v4.1.8
+Input: 3 normalised CDS scores · Output: 3 subtypes
+⚠ Internal AUC=1.0 expected due to label-feature circularity
+Permutation: 1,000 label shuffles, LOOCV retraining per shuffle
+External AUC in GSE183795 = meaningful metric
+SHAP: fastshap v0.1.0, nsim=100
+Script: R/09_classifier.R
+Circuit Gene Sets
+pH
+pH / Hypoxia Circuit (pH_CDS)
+
+# 5 genes
+pH_GENES <- c(
+  "CA9",      # Carbonic anhydrase IX
+  "CA12",     # Carbonic anhydrase XII
+  "HIF1A",    # Hypoxia inducible factor 1-alpha
+  "EGLN1",    # Prolyl hydroxylase domain 2
+  "HSP90AA1" # HSP90 alpha A1
+)
+D
+Death Suppression Circuit (death_CDS)
+
+# 11 genes
+DEATH_GENES <- c(
+  "BCL2", "BCL2L1", "CASP9",
+  "BAX",  "FADD",   "APAF1",
+  "IRS1", "BCL9",   "BCL9L",
+  "CHUK", "MAP3K7"
+)
+C
+Cell Cycle Circuit (cycle_CDS)
+
+# 4 genes
+CYCLE_GENES <- c(
+  "CDK4",    # Cyclin-dependent kinase 4
+  "CCND1",   # Cyclin D1
+  "TTK",     # TTK kinase / MPS1
+  "SLC29A1" # hENT1 gemcitabine transporter
+)
+Statistical Environment
+R/00_setup.R — Key parameters
+SEED          <- 12345   # Fixed in every script
+ALPHA         <- 0.05    # Significance threshold
+FDR_THRESHOLD <- 0.05    # Benjamini-Hochberg FDR
+ESSENTIALITY  <- -0.5   # DepMap CRISPR threshold
+STABILITY_MIN <- 0.70    # Cluster stability threshold
+N_BOOTSTRAP   <- 1000    # Clustering + permutation
+N_SHAP        <- 100     # SHAP integration samples
+
+# R version: 4.6.0
+# Key packages: survival 3.5.7 · BoolNet 2.1.9 · caret 6.0.94
+#   fgsea 1.26.0 · ConsensusClusterPlus 1.64.0 · fastshap 0.1.0
+#   depmap 1.14.0 · GEOquery 2.68.0 · OmnipathR 3.8.0
+#   dcurves 0.5.0 · rms 6.7.1 · timeROC 0.4 · pROC 1.18.5
+PDAC Circuit Framework
+Computational oncology · Undergraduate Research
+
+OverviewMethodsResults NetworkReproducibility GitHub
+MIT License · R 4.6.0 · Seed: 12345
